@@ -1,0 +1,17 @@
+---
+  - name: create user
+    user:
+      name: ansible3
+      shell: /bin/bash
+      password: "{{ '123456' | password_hash('sha512')}}"
+  - name: add user to the sudoers
+    copy:
+      dest: /etc/sudoers.d/ansible3
+      content: "ansible3 ALL=(ALL) NOPASSWD: ALL"
+  - name: deploy ssh key
+    authorized_key:
+      user: ansible3
+      key: "{{lookup('file', '/home/ant/test_ansible/id_rsa.pub')}}"
+      state: present
+
+# tasks file for users

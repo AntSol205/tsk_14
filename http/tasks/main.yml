@@ -1,0 +1,34 @@
+---
+  - name: install nginx
+    apt:
+      name: nginx
+      state: latest
+      update_cache: yes
+    when:
+      ansible_hostname == "srv1-ubuntu"
+    notify:
+      - start nginx
+  - name: config nginx
+    copy:
+      src: nginx.conf
+      dest: /etc/nginx/nginx.conf
+    when:
+      ansible_hostname == "srv1-ubuntu"
+    notify:
+      - restart nginx
+  - name: create default site
+    copy:
+      src: default
+      dest: /etc/nginx/sites-available/default
+    when:
+      ansible_hostname == "srv1-ubuntu"
+    notify:
+      - restart nginx
+  - name: copy index.php for test
+    copy:
+      src: index.php
+      dest: /var/www/html/index.php
+    when:
+      ansible_hostname == "srv1-ubuntu"
+
+# tasks file for http

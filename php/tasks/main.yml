@@ -1,0 +1,21 @@
+---
+  - name: install php-fpm
+    apt:
+      name: php-fpm
+      state: latest
+      update_cache: yes
+    when:
+      ansible_hostname == "srv2-ubuntu"
+    notify:
+      - start php-fpm
+  - name: config php
+    copy:
+      src: www.conf
+      dest: /etc/php/7.2/fpm/pool.d/www.conf
+    when:
+      ansible_hostname == "srv2-ubuntu"
+    notify:
+      - restart php-fpm
+
+
+# tasks file for php

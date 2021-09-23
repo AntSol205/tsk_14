@@ -1,0 +1,9 @@
+---
+  - name: tsk14
+    hosts: ubservers
+    become: yes
+    become_method: sudo
+    roles:
+      - users
+      - http
+      - php
